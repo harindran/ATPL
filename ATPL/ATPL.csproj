@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="SAPBusinessOneSDK">
+      <HintPath>C:\Program Files (x86)\sap\SAP Business One SDK\Lib\SAPBusinessOneSDK.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

@@ -78,6 +78,20 @@ namespace ATPL
             return startDate;
         }
 
+       
+
+        public string GetdateString(object Inv_Doc_Date, string returnformat)
+        {
+
+            string date = ObjtoStr(Inv_Doc_Date);
+            if (string.IsNullOrEmpty(date))
+                return "";
+            
+
+            string dtformate = GetDate(date).ToString(returnformat, CultureInfo.InvariantCulture);
+            return dtformate;
+        }
+
         public void WriteErrorLog(string Str)
         {
             try
@@ -121,6 +135,6 @@ namespace ATPL
 
 
             }
-        }
+        }       
     }
 }
