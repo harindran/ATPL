@@ -10,18 +10,21 @@ namespace ATPL
     {
         public void AddMatrixcol(SAPbouiCOM.Matrix matrix, SAPbouiCOM.Form form, string UniqName,  string Title,
                                   string Table, string TableCol,
-                                  int width = 50, bool Edit = true, SAPbouiCOM.BoFormItemTypes Types=SAPbouiCOM.BoFormItemTypes.it_EDIT,SAPbouiCOM.BoLinkedObject link = SAPbouiCOM.BoLinkedObject.lf_None)
+                                  int width = 50,
+                                  bool Edit = true, SAPbouiCOM.BoFormItemTypes Types=SAPbouiCOM.BoFormItemTypes.it_EDIT,
+                                  SAPbouiCOM.BoLinkedObject link = SAPbouiCOM.BoLinkedObject.lf_None,
+                                    bool visible=true)
         {
             SAPbouiCOM.Columns oColumns = matrix.Columns;
             SAPbouiCOM.Column oColumn = oColumns.Add(UniqName, Types);
             oColumn.TitleObject.Caption = Title;
             oColumn.Width = width;
             oColumn.Editable = Edit;
-
+            oColumn.Visible = visible;
             if (link != SAPbouiCOM.BoLinkedObject.lf_None)
             {
                 SAPbouiCOM.LinkedButton oLinkButton = (SAPbouiCOM.LinkedButton)oColumn.ExtendedObject;
-                oLinkButton.LinkedObject = SAPbouiCOM.BoLinkedObject.lf_Employee;
+                oLinkButton.LinkedObject =link;
             }
 
             if (!string.IsNullOrEmpty(Table))
@@ -32,20 +35,25 @@ namespace ATPL
 
         }
 
+       
+
         public void EditMatrixcol(SAPbouiCOM.Matrix matrix, SAPbouiCOM.Form form, string UniqName, string Title,
                               string Table, string TableCol,
-                              int width = 50, bool Edit = true, SAPbouiCOM.BoFormItemTypes Types = SAPbouiCOM.BoFormItemTypes.it_EDIT, SAPbouiCOM.BoLinkedObject link = SAPbouiCOM.BoLinkedObject.lf_None)
+                              int width = 50, bool Edit = true, 
+                              SAPbouiCOM.BoFormItemTypes Types = SAPbouiCOM.BoFormItemTypes.it_EDIT,
+                              SAPbouiCOM.BoLinkedObject link = SAPbouiCOM.BoLinkedObject.lf_None,
+                              bool visible=true)
         {
             SAPbouiCOM.Columns oColumns = matrix.Columns;
             SAPbouiCOM.Column oColumn = oColumns.Item(UniqName);
             oColumn.TitleObject.Caption = Title;
             oColumn.Width = width;
             oColumn.Editable = Edit;
-
+            oColumn.Visible = visible;
             if (link != SAPbouiCOM.BoLinkedObject.lf_None)
             {
                 SAPbouiCOM.LinkedButton oLinkButton = (SAPbouiCOM.LinkedButton)oColumn.ExtendedObject;
-                oLinkButton.LinkedObject = SAPbouiCOM.BoLinkedObject.lf_Employee;
+                oLinkButton.LinkedObject = link;
             }
 
             if (!string.IsNullOrEmpty(Table))
