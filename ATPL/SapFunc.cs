@@ -76,5 +76,80 @@ namespace ATPL
                 return rset;
             }
         }
+
+        public void Load_Combo(SAPbobsCOM.Recordset rset,string FormUID, SAPbouiCOM.ComboBox comboBox, string Query, string[] Validvalues = null)
+        {          
+                string[] split_char;
+                if (comboBox.ValidValues.Count != 0) return;
+                if (Validvalues != null)
+                {
+                    if (Validvalues.Length > 0)
+                    {
+                        for (int i = 0, loopTo = Validvalues.Length - 1; i <= loopTo; i++)
+                        {
+                            if (string.IsNullOrEmpty(Validvalues[i]))
+                                continue;
+
+                            split_char = Validvalues[i].Split(Convert.ToChar(","));
+
+                            if (split_char.Length != 2)
+                                continue;
+
+                            comboBox.ValidValues.Add(split_char[0], split_char[1]);
+                        }
+
+                    }
+                }
+            if (!string.IsNullOrEmpty(Query))
+            {
+                rset.DoQuery(Query);
+                if (rset.RecordCount == 0) return;
+                for (int i = 0; i < rset.RecordCount; i++)
+                {
+                    comboBox.ValidValues.Add(rset.Fields.Item(0).Value.ToString(), rset.Fields.Item(1).Value.ToString());
+                    rset.MoveNext();
+                }
+            }
+
+                if (Validvalues != null)
+                {
+                    comboBox.Select(0, SAPbouiCOM.BoSearchKey.psk_Index);
+                }                                  
+        }
+        public void Load_ComboMatrix(SAPbobsCOM.Recordset rset, string FormUID, SAPbouiCOM.Column comboBox, string Query, string[] Validvalues = null)
+        {
+            string[] split_char;
+            if (comboBox.ValidValues.Count != 0) return;
+            if (Validvalues != null)
+            {
+                if (Validvalues.Length > 0)
+                {
+                    for (int i = 0, loopTo = Validvalues.Length - 1; i <= loopTo; i++)
+                    {
+                        if (string.IsNullOrEmpty(Validvalues[i]))
+                            continue;
+
+                        split_char = Validvalues[i].Split(Convert.ToChar(","));
+
+                        if (split_char.Length != 2)
+                            continue;
+
+                        comboBox.ValidValues.Add(split_char[0], split_char[1]);
+                    }
+
+                }
+            }
+            if (!string.IsNullOrEmpty(Query))
+            {
+                rset.DoQuery(Query);
+                if (rset.RecordCount == 0) return;
+                for (int i = 0; i < rset.RecordCount; i++)
+                {
+                    comboBox.ValidValues.Add(rset.Fields.Item(0).Value.ToString(), rset.Fields.Item(1).Value.ToString());
+                    rset.MoveNext();
+                }
+            }
+            
+        }
     }
 }
