@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 
 namespace ATPL
 {
+    
     public  class SapFunc
     {
+        private STDFunc STDFunc = new STDFunc();
+
         public void AddMatrixcol(SAPbouiCOM.Matrix matrix, SAPbouiCOM.Form form, string UniqName,  string Title,
                                   string Table, string TableCol,
                                   int width = 50,
                                   bool Edit = true, SAPbouiCOM.BoFormItemTypes Types=SAPbouiCOM.BoFormItemTypes.it_EDIT,
                                   SAPbouiCOM.BoLinkedObject link = SAPbouiCOM.BoLinkedObject.lf_None,
+                                  SAPbouiCOM.ChooseFromList cfl=null,
                                     bool visible=true)
         {
             SAPbouiCOM.Columns oColumns = matrix.Columns;
@@ -26,12 +30,19 @@ namespace ATPL
                 SAPbouiCOM.LinkedButton oLinkButton = (SAPbouiCOM.LinkedButton)oColumn.ExtendedObject;
                 oLinkButton.LinkedObject =link;
             }
-
+          
             if (!string.IsNullOrEmpty(Table))
             {
                 SAPbouiCOM.DBDataSource dbEdit = form.DataSources.DBDataSources.Add(Table);
                 oColumn.DataBind.SetBound(true, Table, TableCol);
+
+                if (cfl != null)
+                {
+                    oColumn.ChooseFromListUID = cfl.UniqueID;             
+                }
+
             }
+
 
         }
 
@@ -74,6 +85,19 @@ namespace ATPL
             catch (Exception ex)
             {
                 return rset;
+            }
+        }
+
+        public string GetSingleValue(SAPbobsCOM.Recordset rset, string StrSQL)
+        {
+            try
+            {         
+                  rset.DoQuery(StrSQL);
+                return STDFunc.ObjtoStr((rset.RecordCount) > 0 ? rset.Fields.Item(0).Value.ToString() : "");
+            }
+            catch (Exception ex)
+            {
+                return "";
             }
         }
 
