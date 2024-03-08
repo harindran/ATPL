@@ -175,5 +175,30 @@ namespace ATPL
             }
             
         }
+        public bool CheckFormOpen(SAPbouiCOM.Application Forms, string FormID)
+        {
+            bool FormExistRet = false;
+            try
+            {
+                FormExistRet = false;
+                foreach (SAPbouiCOM.Form uid in Forms.Forms)
+                {
+                    if (uid.TypeEx == FormID)
+                    {
+                        FormExistRet = true;
+                        break;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return FormExistRet ;
+            }
+
+            return FormExistRet;
+
+        }
+
     }
 }

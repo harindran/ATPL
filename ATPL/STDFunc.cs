@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace ATPL
 {
@@ -52,6 +53,31 @@ namespace ATPL
 
                 if (decimal.TryParse(Lstr, out LdblResult))
                     CtoD = LdblResult;
+                return CtoD;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public decimal CtoD(object Pstring,int round)
+        {
+            decimal CtoD = 0;
+            try
+            {
+                decimal LdblResult;
+                if (Pstring == null)
+                    return CtoD;
+                string Lstr = System.Convert.ToString(Pstring);
+
+                if (decimal.TryParse(Lstr, out LdblResult))
+                    CtoD = LdblResult;
+
+                if (round!=0)
+                {
+                    CtoD = Math.Round(CtoD, round);
+                }
                 return CtoD;
             }
             catch (Exception ex)
@@ -135,6 +161,34 @@ namespace ATPL
 
 
             }
-        }       
+        }
+        
+        public  bool validMail(string Mailid)
+        {
+            bool validMail = true;
+
+            validMail = Regex.IsMatch(Mailid, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
+
+            return validMail;
+        }
+
+        public  string validMail(string Mailid, char Delimeter)
+        {
+
+            string validMail = "";
+            string[] split;
+
+            split = Mailid.Split(Delimeter);
+            foreach (string item in split)
+            {
+                if (string.IsNullOrEmpty(item)) continue;
+                bool isvalidMail = Regex.IsMatch(item, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
+                if (!isvalidMail) { validMail += item + Delimeter; }
+            }
+
+            return validMail;
+        }
+
+
     }
 }
